@@ -25,9 +25,6 @@ public class GildedRose {
 
         updateQuality();
 }
-
-
-	
     public static void updateQuality()
     {
         for (int i = 0; i < items.size(); i++)

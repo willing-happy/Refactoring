@@ -1,52 +1,36 @@
 package com.refactor.homework;
 
 public class Item {
-    public String name;
-	public int sellIn; 
-    public int quality; 
+    private String name;
+    private int sellIn;
+    private int quality;
+    private StrategyItem strategyItem;
+
     
     public Item(String name, int sellIn, int quality) {
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
+        if("Aged Brie".equals(name)){
+            this.strategyItem = new StrategyAgedBrieItem();
+        }else if("Sulfuras, Hand of Ragnaros".equals(name)){
+            this.strategyItem = new StrategySulfurasItem();
+        }else if("Backstage passes to a TAFKAL80ETC concert".equals(name)){
+            this.strategyItem = new StrategyBackstageItem();
+        }else{
+            this.strategyItem = new StrategyNormalItem();
+        }
 	}
 
 	public void updateQuality() {
-		String name = getName();
-        if("Aged Brie".equals(name)){
+        updateSealIn();
+        this.quality = this.strategyItem.calculateQuality(this.sellIn, this.quality);
+    }
+
+    private void updateSealIn(){
+        if(!"Sulfuras, Hand of Ragnaros".equals(name)){
             this.sellIn --;
-            if(this.sellIn < 0 && this.quality < 49){
-                this.quality += 2;
-            }else if(this.quality < 50){
-                this.quality ++;
-            }
-		}else if("Sulfuras, Hand of Ragnaros".equals(name)){
-            if(this.quality < 50){
-                this.quality++;
-            }
-        } else if ("Backstage passes to a TAFKAL80ETC concert".equals(name)) {
-		    this.sellIn --;
-		    if(this.sellIn < 0){
-		        this.quality = 0;
-		        return;
-            }
-        	if(this.quality < 50){
-        		this.quality ++;
-        		if(this.sellIn < 10 && this.quality < 50){
-        			this.quality ++;
-        			if(this.sellIn < 5 && this.quality < 50){
-        				this.quality++;
-					}
-				}
-			}
-		}else{
-		    this.sellIn --;
-		    if(this.sellIn < 0 && this.quality > 1){
-		        this.quality -=2;
-            }else if(this.quality > 0){
-		        this.quality --;
-            }
-		}
+        }
     }
 
 	/* Generated getter and setter code */
