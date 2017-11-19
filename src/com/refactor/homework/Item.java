@@ -6,60 +6,48 @@ public class Item {
     public int quality; 
     
     public Item(String name, int sellIn, int quality) {
-		this.setName(name);
-		this.setSellIn(sellIn);
-		this.setQuality(quality);
+        this.name = name;
+        this.sellIn = sellIn;
+        this.quality = quality;
 	}
 
 	public void updateQuality() {
 		String name = getName();
-        if("Aged Brie".equals(name) || "Sulfuras, Hand of Ragnaros".equals(name)){
-			if(this.quality < 50){
-				this.quality++;
-			}
-		}else if ("Backstage passes to a TAFKAL80ETC concert".equals(name)) {
+        if("Aged Brie".equals(name)){
+            this.sellIn --;
+            if(this.sellIn < 0 && this.quality < 49){
+                this.quality += 2;
+            }else if(this.quality < 50){
+                this.quality ++;
+            }
+		}else if("Sulfuras, Hand of Ragnaros".equals(name)){
+            if(this.quality < 50){
+                this.quality++;
+            }
+        } else if ("Backstage passes to a TAFKAL80ETC concert".equals(name)) {
+		    this.sellIn --;
+		    if(this.sellIn < 0){
+		        this.quality = 0;
+		        return;
+            }
         	if(this.quality < 50){
         		this.quality ++;
-        		if(this.sellIn < 11 && this.quality < 50){
+        		if(this.sellIn < 10 && this.quality < 50){
         			this.quality ++;
-        			if(this.sellIn < 6 && this.quality < 50){
+        			if(this.sellIn < 5 && this.quality < 50){
         				this.quality++;
 					}
 				}
 			}
 		}else{
-			if (this.quality > 0)
-			{
-				this.quality--;
-			}
+		    this.sellIn --;
+		    if(this.sellIn < 0 && this.quality > 1){
+		        this.quality -=2;
+            }else if(this.quality > 0){
+		        this.quality --;
+            }
 		}
-
-
-		updateSellIn();
-
-		if (getSellIn() < 0)
-        {
-        	if("Aged Brie".equals(name)){
-				if (this.quality < 50)
-				{
-					this.quality ++;
-				}
-			}else if("Backstage passes to a TAFKAL80ETC concert".equals(name)){
-				this.quality = 0;
-			}else if(!"Sulfuras, Hand of Ragnaros".equals(name)){
-				if (this.quality > 0){
-					this.quality --;
-				}
-			}
-        }
     }
-
-	private void updateSellIn() {
-		if (!"Sulfuras, Hand of Ragnaros".equals(this.name))
-        {
-            this.sellIn --;
-        }
-	}
 
 	/* Generated getter and setter code */
     public String getName() {
@@ -71,13 +59,7 @@ public class Item {
 	public int getSellIn() {
 		return sellIn;
 	}
-	public void setSellIn(int sellIn) {
-		this.sellIn = sellIn;
-	}
 	public int getQuality() {
 		return quality;
-	}
-	public void setQuality(int quality) {
-		this.quality = quality;
 	}
 }
